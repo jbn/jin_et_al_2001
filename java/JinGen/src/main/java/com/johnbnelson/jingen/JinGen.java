@@ -207,6 +207,13 @@ public class JinGen {
         maxMutualMeetFactors = 0;
 
         numPairs = (n * (n-1)) / 2;
+
+        // TODO: Find all conditions that can result in infinite loops!
+        if((int)Math.round(numPairs * r0) == 0) {
+            throw new RuntimeException(
+                "Bad Config: Zero probability of random friendships forming!"
+            );
+        }
     }
 
     /**
@@ -259,28 +266,32 @@ public class JinGen {
         //double r0, double r1, double gamma, int zStar,
         //int barrierIters;
         //
+        int n = 250, iters = 30000;
         JinGen jinGen = null;
         if(args.length == 0) {
             jinGen = new JinGen();
-        } else if(args.length != 5) {
+        } else if(args.length != 7) {
             System.err.println(
-                "Usage: JinGen r0 r1 gamma zStar barrierIters"
+                "Usage: JinGen n iters r0 r1 gamma zStar barrierIters"
             );
             System.exit(1);
         } else {
+            n = Integer.parseInt(args[0]);
+            iters = Integer.parseInt(args[1]);
+
             jinGen = new JinGen(
-                Double.parseDouble(args[0]),
-                Double.parseDouble(args[1]),
                 Double.parseDouble(args[2]),
-                Integer.parseInt(args[3]),
-                Integer.parseInt(args[4])
+                Double.parseDouble(args[3]),
+                Double.parseDouble(args[4]),
+                Integer.parseInt(args[5]),
+                Integer.parseInt(args[6])
             );
         }
 
 
         System.out.println("graph {");
-        for(Edge edge : jinGen.generate(250, 30000)) {
-            System.out.println("\t" + edge.a + " -- " + edge.b + ";");
+        for(Edge edge : jinGen.generate(n, iters)) {
+           System.out.println("\t" + edge.a + " -- " + edge.b + ";");
         }
         System.out.println("}");
     }
