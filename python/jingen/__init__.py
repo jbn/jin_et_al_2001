@@ -104,9 +104,10 @@ def random_pair_from_set(nodes):
     return random_pair_from_list(list(nodes))
 
 
-class JinGenerator:
+class JinGen:
     def __init__(self, r_0=0.0005, r_1=2., gamma=0.005, z_star=5, 
                  barrier_iters=1):
+        self.i = 0
         self.r_0 = r_0
         self.r_1 = r_1
         self.gamma = gamma
@@ -189,7 +190,7 @@ class JinGenerator:
     #   connection and if neither of them already has the maximum number
     #   z* of connections.
     def _introduce_friends(self):
-        num_mutual = int(0.5 * sum(k * (k - 1) for k in self.degrees))
+        num_mutual = int(0.5 * sum(j for j in self.mutual_meet_factors))
         n_introductions = int(round(num_mutual * self.r_1))
         
         for _ in range(n_introductions):
@@ -222,7 +223,6 @@ class JinGenerator:
             edge = (ego, alter) if ego < alter else (alter, ego)
             self._remove_edge(edge)
 
-    
     def _setup(self, n):
         # This was refactored out of __call__ so I could experiment
         # and test _add and _remove without calling self(*). Really, this is
@@ -240,7 +240,7 @@ class JinGenerator:
         
         self.num_pairs = int(n * (n - 1) / 2)
 
-    def generate(self, n=250, iterations=100, callback=None):
+    def generate(self, n=250, iterations=30000, callback=None):
         self._setup(n)
         
         for i in range(iterations):
