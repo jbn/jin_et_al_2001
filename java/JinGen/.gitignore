@@ -1,5 +1,7 @@
 JinGen.iml
 .idea/
 out/
-target/
+
+target/*
+!target/JinGen-0.0.1.jar
 
