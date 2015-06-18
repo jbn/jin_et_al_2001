@@ -1,9 +1,5 @@
 JinGen.iml
 .idea/
 out/
-
-# Allow jars to github. This is a really small Jar file and some people
-# don't like Maven. 
-target/*
-!target/*.jar
+target/
 
