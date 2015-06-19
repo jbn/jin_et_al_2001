@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * This class is a direct port of a Python Library that I implemented.
  * It is undocumented because I have no desire to maintain documentation
- * in two places. The Python <-> Java mapping is basically one-to-one.
+ * in two places. The Python-to-Java mapping is basically one-to-one.
  * Read the Python documentation.
  */
 public class JinGen {
